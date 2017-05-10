@@ -3,30 +3,20 @@
 <mapper namespace="com.me.ssm.dao.UserDao">
 
     <resultMap id="UserBaseMap" type="com.me.ssm.model.User">
-        <id column="id" property="id" jdbcType="BIGINT"/>
-        <result column="user_name" property="userName" jdbcType="VARCHAR"/>
-        <result column="user_phone" property="userPhone" jdbcType="VARCHAR"/>
-        <result column="user_email" property="userEmail" jdbcType="VARCHAR"/>
-        <result column="user_pwd" property="userPwd" jdbcType="VARCHAR"/>
-        <result column="pwd_salt" property="pwdSalt" jdbcType="VARCHAR"/>
-        <result column="create_time" property="createTime" jdbcType="DATE"/>
-        <result column="modify_time" property="modifyTime" jdbcType="DATE"/>
-        <result column="is_delete" property="isDelete" jdbcType="SMALLINT"></result>
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="role" property="role" jdbcType="VARCHAR"/>
+        <result column="password" property="password" jdbcType="VARCHAR"/>
+        <result column="salt" property="salt" jdbcType="VARCHAR"/>
     </resultMap>
 
-    <select id="selectUserById" parameterType="java.lang.Long" resultMap="UserBaseMap">
-        SELECT * FROM t_user
-        WHERE id = #{userId}
-    </select>
-
-    <select id="selectUserByPhoneOrEmail" resultMap="UserBaseMap">
-        SELECT * FROM t_user
-        WHERE user_email = #{emailOrPhone} OR user_phone = #{emailOrPhone}
-        AND user_state = #{state}
+    <select id="selectUserById" parameterType="java.lang.String" resultMap="UserBaseMap">
+        SELECT * FROM user
+        WHERE id = #{id}
     </select>
 
     <select id="selectAllUser" resultMap="UserBaseMap">
-        SELECT * FROM t_user
+        SELECT * FROM user
     </select>
 
 </mapper>

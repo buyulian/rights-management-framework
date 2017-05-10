@@ -16,12 +16,8 @@ public class UserServiceImpl implements UserService {
     @Resource
     private UserDao userDao;
 
-    public User getUserById(Long userId) {
-        return userDao.selectUserById(userId);
-    }
-    
-    public User getUserByPhoneOrEmail(String emailOrPhone, Short state) {
-        return userDao.selectUserByPhoneOrEmail(emailOrPhone,state);
+    public User getUserById(String id) {
+        return userDao.selectUserById(id);
     }
     
     public List<User> getAllUser() {
