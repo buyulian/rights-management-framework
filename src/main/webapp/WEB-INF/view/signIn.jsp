@@ -16,11 +16,14 @@
 
     <!-- Bootstrap Core CSS -->
     <link href="${pageContext.request.contextPath}/css/bootstrap.min.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/css/common.css" rel="stylesheet">
 
 </head>
 
 <body>
-
+<div class="page-header">
+    <h1 id="title">权限管理框架示例</h1>
+</div>
 <div class="container">
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
@@ -37,7 +40,7 @@
                     <form role="form" action="${pageContext.request.contextPath}/login" method="post">
                         <fieldset>
                             <div class="form-group">
-                                <input class="form-control" placeholder="账户名" name="username" autofocus>
+                                <input class="form-control" placeholder="学号" name="id" autofocus>
                             </div>
                             <div class="form-group">
                                 <input class="form-control" placeholder="密码" name="password" type="password">
@@ -46,9 +49,12 @@
                                 <label>
                                     <input name="remember" type="checkbox" value="RememberMe">记住我
                                 </label>
+                                <!-- Change this to a button or input when using this as a form -->
+                                <input type="submit" value="登录" class="btn btn-default">
+                                <a href="signUp">
+                                    <input type="button" value="注册" class="btn btn-default">
+                                </a>
                             </div>
-                            <!-- Change this to a button or input when using this as a form -->
-                            <input type="submit" value="登录" class="btn btn-primary form-control">
                         </fieldset>
                     </form>
                 </div>

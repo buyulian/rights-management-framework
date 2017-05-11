@@ -1,5 +1,6 @@
 package com.me.ssm.controller;
 
+import com.me.ssm.System.Authentication;
 import com.me.ssm.model.User;
 import com.me.ssm.service.UserService;
 import org.apache.log4j.Logger;
@@ -12,7 +13,6 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @Controller
-@RequestMapping("/user")
 public class UserController {
 
     private Logger log = Logger.getLogger(UserController.class);
@@ -21,6 +21,7 @@ public class UserController {
 
     @RequestMapping("/showUser")
     public String showUser(HttpServletRequest request, Model model){
+        if(!Authentication.isLogin(request))return "signIn";
         log.info("查询所有用户信息");
         List<User> userList = userService.getAllUser();
         model.addAttribute("userList",userList);

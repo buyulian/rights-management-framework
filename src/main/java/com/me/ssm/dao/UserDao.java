@@ -15,5 +15,7 @@ public interface UserDao {
 
     User selectUserById(@Param("id") String id);
 
+    void add(User user);
+
     List<User> selectAllUser();
 }

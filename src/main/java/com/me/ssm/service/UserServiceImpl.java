@@ -19,8 +19,13 @@ public class UserServiceImpl implements UserService {
     public User getUserById(String id) {
         return userDao.selectUserById(id);
     }
-    
+
     public List<User> getAllUser() {
         return userDao.selectAllUser();
     }
+
+    public void add(User user) {
+        userDao.add(user);
+    }
+
 }
