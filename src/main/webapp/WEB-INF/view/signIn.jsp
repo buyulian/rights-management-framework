@@ -29,12 +29,8 @@
         <div class="col-md-8 col-md-offset-2">
             <div class="login-panel panel panel-default">
                 <div class="panel-heading">
-                    <h3 class="panel-title">请登录</h3>
-                    <%
-                        String message = request.getParameter("message");
-                        if(message!=null)
-                             out.print(message);
-                    %>
+                    <h1>请登录</h1>
+                    <h3>${message}</h3>
                 </div>
                 <div class="panel-body">
                     <form role="form" action="${pageContext.request.contextPath}/login" method="post">

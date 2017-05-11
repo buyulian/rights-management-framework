@@ -1,5 +1,6 @@
 package com.me.ssm.service;
 
+import com.me.ssm.System.Authentication;
 import com.me.ssm.dao.UserDao;
 import com.me.ssm.model.User;
 import org.springframework.stereotype.Service;
@@ -25,6 +26,8 @@ public class UserServiceImpl implements UserService {
     }
 
     public void add(User user) {
+        user.setSalt(Authentication.getSalt());
+        user.setPassword(Authentication.md5(user.getPassword()+user.getSalt()));
         userDao.add(user);
     }
 

@@ -19,23 +19,34 @@ public class SignController {
     private UserService userService;
 
     @RequestMapping("/signIn")
-    public String signIn(HttpServletRequest request, Model model){
+    public String signIn(){
+
         return "signIn";
     }
+
     @RequestMapping("/signUp")
-    public String signUp(HttpServletRequest request, Model model){
+    public String signUp(){
         return "signUp";
     }
+
     @RequestMapping("/login")
-    public String login(HttpServletRequest request, Model model,User user){
+    public String login(HttpServletRequest request, Model model, User user){
         if(Authentication.login(user.getId(),user.getPassword(),request,userService))
             return "redirect:showUser";
+        model.addAttribute("message","密码错误");
+        return "signIn";
+    }
+
+    @RequestMapping("/loginOut")
+    public String loginOut(HttpServletRequest request,User user){
+        Authentication.loginOut(request);
         return Authentication.backPath;
     }
+
     @RequestMapping("/addUser")
     public String addUser(HttpServletRequest request,User user){
-        user.setSalt(Authentication.getSalt());
-        user.setPassword(Authentication.md5(user.getPassword()+user.getSalt()));
+        if(Authentication.isRole("admin",request))
+            return Authentication.backPath;
         userService.add(user);
         return "redirect:signIn";
     }
