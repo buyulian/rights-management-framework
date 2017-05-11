@@ -15,6 +15,7 @@ import java.util.Random;
  */
 @Component
 public class Authentication {
+    public static String backPath="redirect:/signIn";//越权访问的返回路径
     //登录工具类
     public static boolean login(String id,String pwd,HttpServletRequest request,UserService userService){
         User user=userService.getUserById(id);
@@ -41,7 +42,23 @@ public class Authentication {
         if(session.isNew()){
            return false;
         }
+        if(session.getAttribute("id")==null)
+            return false;
         return true;
+    }
+    //是否是这个角色
+    public static boolean isRole(String role,HttpServletRequest request){
+        if(isLogin(request)){
+            if(request.getSession().getAttribute("role").equals(role))
+                return true;
+        }
+        return false;
+    }
+    //退出
+    public static void loginOut(HttpServletRequest request){
+        if(isLogin(request)){
+            request.getSession().invalidate();
+        }
     }
     //md5加密
     public static String md5(String str){

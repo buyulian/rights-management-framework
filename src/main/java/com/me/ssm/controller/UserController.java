@@ -21,7 +21,8 @@ public class UserController {
 
     @RequestMapping("/showUser")
     public String showUser(HttpServletRequest request, Model model){
-        if(!Authentication.isLogin(request))return "signIn";
+        if(!Authentication.isLogin(request))
+            return Authentication.backPath;
         log.info("查询所有用户信息");
         List<User> userList = userService.getAllUser();
         model.addAttribute("userList",userList);

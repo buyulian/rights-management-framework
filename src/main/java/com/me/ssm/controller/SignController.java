@@ -30,7 +30,7 @@ public class SignController {
     public String login(HttpServletRequest request, Model model,User user){
         if(Authentication.login(user.getId(),user.getPassword(),request,userService))
             return "redirect:showUser";
-        return "redirect:signIn";
+        return Authentication.backPath;
     }
     @RequestMapping("/addUser")
     public String addUser(HttpServletRequest request,User user){
