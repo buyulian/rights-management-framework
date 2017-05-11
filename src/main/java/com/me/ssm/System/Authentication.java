@@ -15,6 +15,7 @@ import java.util.Random;
  */
 @Component
 public class Authentication {
+    //登录工具类
     public static boolean login(String id,String pwd,HttpServletRequest request,UserService userService){
         User user=userService.getUserById(id);
         //加密后的字符串
@@ -33,6 +34,7 @@ public class Authentication {
         }
         return false;
     }
+    //是否登录
     public static boolean isLogin(HttpServletRequest request){
         // 如果不存在 session 会话，则创建一个 session 对象
         HttpSession session = request.getSession();
@@ -41,6 +43,7 @@ public class Authentication {
         }
         return true;
     }
+    //md5加密
     public static String md5(String str){
 
         MessageDigest md5= null;
@@ -53,6 +56,7 @@ public class Authentication {
         }
         return newstr;
     }
+    //bytes数组转16进制字符串
     public static String bytesToHexString(byte[] src){
         StringBuilder stringBuilder = new StringBuilder("");
         if (src == null || src.length <= 0) {
@@ -68,6 +72,7 @@ public class Authentication {
         }
         return stringBuilder.toString();
     }
+    //随机生成盐
     public static String getSalt(){
         char[] chars="0123456789abcdefghijklmnopqrwtuvzxyzABCDEFGHIJKLMNOPQRSTUVWXYZ".toCharArray();
         char[] saltchars=new char[6];
