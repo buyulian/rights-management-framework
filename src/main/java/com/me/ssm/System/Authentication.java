@@ -13,12 +13,15 @@ import java.util.Random;
 /**
  * Created by 不语恋 on 2017/5/8.
  */
+//这个类集中了授权管理相关的所有工具类，从微观角度进行权限管理
 @Component
 public class Authentication {
     public static String backPath="redirect:/signIn";//越权访问的返回路径
     //登录工具类
     public static boolean login(String id,String pwd,HttpServletRequest request,UserService userService){
         User user=userService.getUserById(id);
+        if(user==null)
+            return false;
         //加密后的字符串
         String pwd2=md5(pwd+user.getSalt());
         if(pwd2.equals(user.getPassword())){
