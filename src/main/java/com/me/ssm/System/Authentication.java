@@ -3,9 +3,12 @@ package com.me.ssm.System;
 import com.me.ssm.model.User;
 import com.me.ssm.service.UserService;
 import org.springframework.stereotype.Component;
+import sun.misc.BASE64Decoder;
+import sun.misc.BASE64Encoder;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.SecureRandom;
 import java.util.Random;
@@ -16,7 +19,7 @@ import java.util.Random;
 //这个类集中了授权管理相关的所有工具类，从微观角度进行权限管理
 @Component
 public class Authentication {
-    public static String backPath="redirect:/signIn";//越权访问的返回路径
+    public static String backPath="redirect:/";//越权访问的返回路径
     //登录工具类
     public static boolean login(String id,String pwd,HttpServletRequest request,UserService userService){
         User user=userService.getUserById(id);
@@ -43,7 +46,7 @@ public class Authentication {
         // 如果不存在 session 会话，则创建一个 session 对象
         HttpSession session = request.getSession();
         if(session.isNew()){
-           return false;
+            return false;
         }
         if(session.getAttribute("id")==null)
             return false;
@@ -103,5 +106,34 @@ public class Authentication {
         }
         String salt=new String(saltchars);
         return salt;
+    }
+
+    //sql安全的base64加密
+    public static String safeUrlBase64Encode(byte[] data){
+        String encodeBase64 = new BASE64Encoder().encode(data);
+        String safeBase64Str = encodeBase64.replace('+', '-');
+        safeBase64Str = safeBase64Str.replace('/', '_');
+        safeBase64Str = safeBase64Str.replaceAll("=", "");
+        return safeBase64Str;
+    }
+    //sql安全的base64解密
+    public static byte[] safeUrlBase64Decode(String safeBase64Str) throws IOException {
+        String base64Str = safeBase64Str.replace('-', '+');
+        base64Str = base64Str.replace('_', '/');
+        int mod4 = base64Str.length()%4;
+        if(mod4 > 0){
+            base64Str = base64Str + "====".substring(mod4);
+        }
+        return new BASE64Decoder().decodeBuffer(base64Str);
+    }
+    //base64加密
+    public static String base64Encode(String str){
+        byte[] data=str.getBytes();
+        return safeUrlBase64Encode(data);
+    }
+    //base64解密
+    public static String base64Decode(String str) throws IOException {
+        byte[] data=safeUrlBase64Decode(str);
+        return new String(data);
     }
 }
