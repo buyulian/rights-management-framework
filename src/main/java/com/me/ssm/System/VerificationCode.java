@@ -7,23 +7,20 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
 import java.util.Random;
 
 /**
  * Created by 不语恋 on 2017/5/18.
  */
 public class VerificationCode {
-    private static int width = 90;//验证码宽度
-    private static int height = 40;//验证码高度
+    private static int width = 140;//验证码宽度
+    private static int height = 60;//验证码高度
     private static int codeCount = 4;//验证码个数
-    private static int lineCount = 19;//混淆线个数
+    private static int lineCount = 4;//混淆线个数
 
-    static char[] codeSequence = { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J',
-            'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W',
-            'X', 'Y', 'Z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' };
+    static String codeSequence = "0123456789qwertyuioplkjhgfdsazxcvbnmQWERTYUIOPLKJHGFDSAZXCVBNM";
     public static void getCode(HttpServletRequest request,
-                        HttpServletResponse response) throws IOException {
+                        HttpServletResponse response) throws Exception {
         //定义随机数类
         Random r = new Random();
         //定义存储验证码的类
@@ -39,19 +36,24 @@ public class VerificationCode {
         g.setColor(Color.white);
         g.fillRect(1,1,width-2,height-2);
         //3.设置干扰线
-        g.setColor(Color.gray);
+        g.setColor(Color.blue);
+        Graphics2D g2 = (Graphics2D)g;  //g是Graphics对象
+        g2.setStroke(new BasicStroke(3.0f));
+        g2.setColor(Color.blue);
         for (int i = 0; i < lineCount; i++) {
-            g.drawLine(r.nextInt(width),r.nextInt(width),r.nextInt(width),r.nextInt(width));
+            //g.drawLine(r.nextInt(width),r.nextInt(height),r.nextInt(width),r.nextInt(height));
+            g2.drawLine(r.nextInt(width),r.nextInt(height),r.nextInt(width),r.nextInt(height));
         }
         //4.设置验证码
         g.setColor(Color.blue);
         //4.1设置验证码字体
-        g.setFont(new Font("宋体",Font.BOLD|Font.ITALIC,15));
+        g.setFont(new Font("lucida handwriting", Font.ITALIC,36));
         for (int i = 0; i < codeCount; i++) {
-            char c = codeSequence[r.nextInt(codeSequence.length)];
+            char c = codeSequence.charAt(r.nextInt(codeSequence.length()));
+            //String c=createChineseChar();
             builderCode.append(c);
-            g.drawString(c+"",15*(i+1),15);
         }
+        g.drawString(builderCode+"",10,40);
         //5.输出到屏幕
         ServletOutputStream sos = response.getOutputStream();
         ImageIO.write(buffImg,"png",sos);
@@ -75,5 +77,17 @@ public class VerificationCode {
         }
         session.removeAttribute("codeValidate");
         return flag;
+    }
+    public static String createChineseChar() throws Exception {
+        String str = null;
+        int hightPos, lowPos; // 定义高低位
+        Random random = new Random();
+        hightPos = (176 + Math.abs(random.nextInt(39)));//获取高位值
+        lowPos = (161 + Math.abs(random.nextInt(93)));//获取低位值
+        byte[] b = new byte[2];
+        b[0] = (new Integer(hightPos).byteValue());
+        b[1] = (new Integer(lowPos).byteValue());
+        str = new String(b, "GBk");//转成中文
+        return str;
     }
 }
