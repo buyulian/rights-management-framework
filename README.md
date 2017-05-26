@@ -1,8 +1,4 @@
-# 一款轻量级的java web 权限管理框架 
-* 在 Spring+SpringMVC+Mybatias+Maven工程上搭建
-* 不需要巨大的学习代价
-* 不需繁重的配置
-* 实现了简单易用的权限管理功能
+# 一些权限管理常用的类和方法
 
 ## 主要用法
 * AuthenticationFilter过滤器主要负责对url进行全局的过滤。
