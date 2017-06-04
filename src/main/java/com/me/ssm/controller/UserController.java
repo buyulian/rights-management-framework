@@ -20,12 +20,12 @@ public class UserController {
     private UserService userService;
 
     @RequestMapping("/showUser")
-    public String showUser(HttpServletRequest request, Model model){
-        if(!Authentication.isLogin(request))
+    public String showUser(HttpServletRequest request, Model model) {
+        if (!Authentication.isLogin(request))
             return Authentication.backPath;
         log.info("查询所有用户信息");
         List<User> userList = userService.getAllUser();
-        model.addAttribute("userList",userList);
+        model.addAttribute("userList", userList);
         return "showUser";
     }
 }

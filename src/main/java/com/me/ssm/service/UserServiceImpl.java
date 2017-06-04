@@ -13,7 +13,7 @@ import java.util.List;
 @Service
 @Transactional(rollbackFor = Exception.class)
 public class UserServiceImpl implements UserService {
-    
+
     @Resource
     private UserDao userDao;
 
@@ -27,7 +27,7 @@ public class UserServiceImpl implements UserService {
 
     public void add(User user) {
         user.setSalt(Authentication.getSalt());
-        user.setPassword(Authentication.md5(user.getPassword()+user.getSalt()));
+        user.setPassword(Authentication.md5(user.getPassword() + user.getSalt()));
         userDao.add(user);
     }
 
